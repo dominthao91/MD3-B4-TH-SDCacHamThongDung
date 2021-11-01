@@ -66,3 +66,14 @@ group by s.StudentID, s.StudentName having avg(Mark)>5;
 select s.StudentID,s.StudentName, avg(Mark) as ' diem trung binh max'
 from students s join Mark M on s.StudentID = M.StudentID
 group by s.StudentID,s.StudentName HAVING AVG(Mark) >= ALL (SELECT AVG(Mark) FROM Mark GROUP BY Mark.StudentId);
+
+# Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
+select max(Credit) from subject  group by SubID,SubName having max(Credit) >= all (select max(Credit)from subject);
+
+# Hiển thị các thông tin môn học có điểm thi lớn nhất.
+select max(Mark) from subject join Mark M on Subject.SubID = M.SubID group by Subject.
+SubID,Subject.SubName having max(Mark) >= all (select max(Mark) from Mark group by Mark.SubID);
+
+# Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+select s.StudentID,s.StudentName,avg(Mark) as 'DTB giảm dần' from students s join mark m on s.StudentID = m.StudentID
+group by s.StudentID, s.StudentName order by  avg(Mark) desc ;
